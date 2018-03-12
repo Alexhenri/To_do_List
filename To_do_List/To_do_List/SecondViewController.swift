@@ -20,11 +20,6 @@ class SecondViewController: UIViewController, UITextFieldDelegate{
         
         addButton.layer.cornerRadius = 8
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // close keyboard when any where outside the textfield is pressed
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -39,6 +34,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction func addButtonTapped(_ sender: Any) {
         
+        toDoTextField.resignFirstResponder()
+        
         // call function to actually add to list
         if addToList() {
             
@@ -50,6 +47,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate{
             resultLabel.textColor   = UIColor(red: 0.7373, green: 0, blue: 0, alpha: 1.0) /* #bc0000 */
             
         }
+        
+        toDoTextField.text = ""
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             // change 2 to desired number of seconds
@@ -64,6 +63,11 @@ class SecondViewController: UIViewController, UITextFieldDelegate{
         // if for any reason cannot gets the textfield content return false
         guard let toDo = toDoTextField.text else {
             print("Error \(#line): Cannot access the textField content")
+            return false
+        }
+        
+        guard toDo != "" else {
+            print("Error \(#line): Textfield is blank")
             return false
         }
         
